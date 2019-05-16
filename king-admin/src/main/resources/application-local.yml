@@ -1,0 +1,31 @@
+server:
+  port: 8084
+king:
+  rocketmq:
+    serverUrl: localhost：9876
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/king?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: neo_test
+    password: neo@Test123
+    hikari:
+      # 控制从池返回的连接的默认自动提交行为，默认true
+      autoCommit: true
+      # 链接超时时间，默认30秒（30000），如果超过30秒还没有获取到可用链接，则抛出SQLException，最低接受250 ms
+      connectionTimeout: 30000
+      # 设置链接在池中闲置的时间，跟线程池中线程的keepAlive一个意思，默认：600000（10分钟），最小值10秒，如果设置为0，则链接永远不退出
+      idleTimeout: 600000
+      # 链接的整个生命周期，在在到达指定的时间，且不在工作的时候，就会被销毁，然后重新生成，默认：30分钟，（1800000）
+      maxLifetime: 180000
+      # 如果您的驱动程序支持JDBC4，我们强烈建议您不要设置此属性。这是针对不支持JDBC4的“传统”驱动程序Connection.isValid() API
+      connectionTestQuery: select 1
+      # 最小空闲个数，跟线程池中的coreSize相同，控制的是连接池中的最小控线连接数，链接空闲了，到达一定时间会关闭，但是最小的值为mininumIdle，默认与maxinumPoolSize
+      minimumIdle: 10
+      # 最大连接池中的连接数，跟线程池中的maxSize相同，默认10，该值将决定到数据库后端的最大实际连接数，如果到达获取不到更多链接，则会报获取超时
+      maximumPoolSize: 10
+      # 连接池的名称，用于在日志记录和JMX管理中识别池和池配置
+      poolName: neo_pool
+      # 只读标示，用于控制默认情况下从连接池中获取到的链接状态是否处于只读，有些数据库不支持只读，有些会对只读提供优化，是否设置决定于数据库和应用，默认false
+      readOnly: false

@@ -29,5 +29,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.simon.cloud</groupId>
+            <artifactId>king-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.simon.cloud</groupId>
+            <artifactId>king-common</artifactId>
+        </dependency>
     </dependencies>
 </project>

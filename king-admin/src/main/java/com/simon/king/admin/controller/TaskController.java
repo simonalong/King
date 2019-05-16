@@ -29,32 +29,33 @@ public class TaskController extends BaseResponseController {
 
     @PutMapping("add")
     public ResponseEntity add(@RequestBody NeoMap record) {
-        log.info("增加：" + record);
+        log.debug("增加：" + record);
         return ok(taskService.insert(record));
     }
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<Integer> delete(@PathVariable Long id) {
-        log.info("删除：" + id);
+        log.debug("删除：" + id);
         return ok(taskService.delete(id));
     }
 
     @PostMapping("update")
     public ResponseEntity update(@RequestBody NeoMap record) {
-        log.info("更新：" + record);
+        log.debug("更新：" + record);
         return ok(taskService.update(record));
     }
 
     @PostMapping("pageList")
     public ResponseEntity<List> pageList(@RequestBody NeoMap record) {
-        log.info("查看分页数据：" + record);
+        log.debug("查看分页数据：" + record);
+        record.put("order by", "status asc, update_time desc");
         List result = taskService.getPage(record);
         return ok(result);
     }
 
     @PostMapping("count")
     public ResponseEntity<Integer> count(@RequestBody NeoMap record) {
-        log.info("查看总个数：" + record);
+        log.debug("查看总个数：" + record);
         return ok(taskService.count(record));
     }
 
@@ -63,24 +64,18 @@ public class TaskController extends BaseResponseController {
         return ok(taskService.getCodeList());
     }
 
-    /**
-     * 禁用
-     */
-    @PostMapping("disable")
-    public ResponseEntity<Integer> disable(@RequestBody NeoMap record){
+    @PostMapping("load")
+    public ResponseEntity<NeoMap> load(@RequestBody NeoMap record) {
         Long id = record.getLong("id");
-        log.info("关闭任务：" + id);
-        return ok(taskService.disable(id));
+        log.debug("启用配置：" + id);
+        return ok(taskService.enable(id));
     }
 
-    /**
-     * 启用
-     */
-    @PostMapping("enable")
-    public ResponseEntity<Integer> enable(@RequestBody NeoMap record){
+    @PostMapping("unload")
+    public ResponseEntity<NeoMap> unload(@RequestBody NeoMap record) {
         Long id = record.getLong("id");
-        log.info("打开任务：" + id);
-        return ok(taskService.enable(id));
+        log.debug("禁用配置：" + id);
+        return ok(taskService.disable(id));
     }
 
     /**
@@ -88,7 +83,7 @@ public class TaskController extends BaseResponseController {
      */
     @PostMapping("handRun")
     public ResponseEntity<Object> handRun(@RequestBody NeoMap record){
-        log.info("手动触发一次：" + record);
+        log.debug("手动触发一次：" + record);
         return ok(taskService.handRun(record));
     }
 
@@ -97,7 +92,7 @@ public class TaskController extends BaseResponseController {
      */
     @PostMapping("run")
     public ResponseEntity<String> run(@RequestBody NeoMap record){
-        log.info("脚本执行：" + record);
+        log.debug("脚本执行：" + record);
         return ok(taskService.run(record));
     }
 }

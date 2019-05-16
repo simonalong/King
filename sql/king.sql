@@ -1,5 +1,5 @@
 CREATE TABLE `t_task` (
-  `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` bigint(32) NOT NULL COMMENT '主键',
   `task_group` char(64) NOT NULL COMMENT '数据来源组，外键关联lk_config_group',
   `task_name` varchar(64) NOT NULL DEFAULT '' COMMENT '任务name',
   `task_desc` varchar(120) NOT NULL DEFAULT '' COMMENT '任务描述',
@@ -16,14 +16,14 @@ CREATE TABLE `t_task` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_code_index` (`task_group`,`task_name`),
   KEY `task_name_index` (`task_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1695 DEFAULT CHARSET=utf8mb4 COMMENT='任务表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='任务表';
 
 CREATE TABLE `t_config_group` (
-  `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `id` bigint(32) NOT NULL COMMENT '主键',
   `group_code` varchar(64) DEFAULT NULL COMMENT '分组编码',
   `group_name` varchar(120) DEFAULT NULL COMMENT '分组名称',
   `create_time` datetime(3) NOT NULL,
   `update_time` datetime(3) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `group_index` (`group_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='分组配置';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='分组配置';

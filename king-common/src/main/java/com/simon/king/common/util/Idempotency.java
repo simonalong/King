@@ -31,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
  * @author zhouzhenyong
  * @since 2019/2/21 下午7:36
  */
-@Slf4j
 public class Idempotency {
 
     private static Idempotency instance = new Idempotency();

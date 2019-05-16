@@ -1,6 +1,8 @@
 package com.simon.king.admin.controller;
 
 import com.simon.king.admin.constants.AdminConstant;
+import com.simon.king.admin.view.AccountEntity;
+import com.simon.king.admin.view.LoginResponseEntity;
 import com.simon.neo.NeoMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,7 +50,6 @@ public class PrivilegeController implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         userMap.put("admin", AccountEntity.of("admin", "admin@123", "admin"));
-        userMap.put("like", AccountEntity.of("like", "like@123", "admin"));
         userMap.put("user", AccountEntity.of("user", "user@123", "user"));
         userMap.put("guest", AccountEntity.of("guest", "guest", "guest"));
     }

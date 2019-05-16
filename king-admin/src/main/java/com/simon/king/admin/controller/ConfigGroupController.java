@@ -1,6 +1,7 @@
 package com.simon.king.admin.controller;
 
 import com.simon.king.admin.constants.AdminConstant;
+import com.simon.king.admin.service.ConfigGroupService;
 import com.simon.neo.NeoMap;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -42,7 +43,7 @@ public class ConfigGroupController extends BaseResponseController {
 
     @GetMapping("codeList")
     public ResponseEntity<List> getGroupList() {
-        return ok(configGroupService.getStrList());
+        return ok(configGroupService.values("group_code", NeoMap.of()));
     }
 
     @PutMapping("add")

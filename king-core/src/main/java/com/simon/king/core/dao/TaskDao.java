@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class TaskDao {
 
-    private static final String TABLE_NAME = "lk_task";
+    private static final String TABLE_NAME = "t_task";
 
     @Autowired
     private Neo tina;

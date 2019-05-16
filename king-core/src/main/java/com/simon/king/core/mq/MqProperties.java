@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Getter
 @Setter
-@ConfigurationProperties("tina.rocketmq")
+@ConfigurationProperties("king.rocketmq")
 public class MqProperties {
 
     private String serverUrl;

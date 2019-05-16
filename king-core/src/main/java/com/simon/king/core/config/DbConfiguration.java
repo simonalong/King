@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 public class DbConfiguration {
 
     @Bean
-    public Neo tina(DataSource dataSource){
+    public Neo tina(@Qualifier("dataSource") DataSource dataSource){
         Neo tina = Neo.connect(dataSource);
         // 开启分布式id生成器
         tina.openUidGenerator();

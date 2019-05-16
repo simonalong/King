@@ -43,7 +43,7 @@ public class TaskService extends BaseService {
     }
 
     public List<String> getCodeList(){
-        return taskDao.getCodeList();
+        return getNeo().values(getTableName(), "task_group");
     }
 
     public NeoMap disable(Long taskId){

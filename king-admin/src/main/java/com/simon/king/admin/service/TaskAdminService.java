@@ -1,5 +1,20 @@
 package com.simon.king.admin.service;
 
+import com.alibaba.fastjson.JSON;
+import com.simon.king.common.KingConstant;
+import com.simon.king.core.dao.TaskDao;
+import com.simon.king.core.meta.StatusEnum;
+import com.simon.king.core.meta.TaskChgEnum;
+import com.simon.king.core.meta.TaskEntity;
+import com.simon.king.core.mq.MqProducer;
+import com.simon.king.core.mq.TaskChgMsg;
+import com.simon.king.core.mq.entity.MqMessage;
+import com.simon.king.core.mq.entity.MsgEntity;
+import com.simon.king.core.service.TaskService;
+import com.simon.neo.NeoMap;
+import com.simon.neo.NeoMap.NamingChg;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.client.producer.SendResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,22 +22,19 @@ import org.springframework.stereotype.Service;
  * @author zhouzhenyong
  * @since 2019/5/16 上午11:34
  */
+@Slf4j
 @Service
 public class TaskAdminService extends TaskService {
 
     @Autowired
-    private ProducerBean tinaProducer;
-    @Autowired
-    private OnsProperties onsProperties;
-    @Autowired
-    private UUIDService uuidService;
+    private MqProducer producer;
     @Autowired
     private TaskDao taskDao;
 
     @Override
-    public Integer insert(Record record) {
-        Integer result = super.insert(record);
-        if (1 == result) {
+    public NeoMap insert(NeoMap record) {
+        NeoMap result = super.insert(record);
+        if (!NeoMap.isEmpty(result)) {
             if (judgeEnable(record)) {
                 sendTaskActive(record);
             }
@@ -32,7 +44,7 @@ public class TaskAdminService extends TaskService {
 
     @Override
     public Integer delete(Long id) {
-        Record record = one(id);
+        NeoMap record = one(id);
         Integer result = super.delete(id);
         if (1 == result) {
             sendTaskDelete(record);
@@ -41,10 +53,10 @@ public class TaskAdminService extends TaskService {
     }
 
     @Override
-    public Integer update(Record record) {
-        Record recordBefore = taskDao.oneIgnoreStatus(record.getLong("id"));
-        Integer result = super.update(record);
-        if (1 == result) {
+    public NeoMap update(NeoMap record) {
+        NeoMap recordBefore = taskDao.oneIgnoreStatus(record.getLong("id"));
+        NeoMap result = super.update(record);
+        if (!NeoMap.isEmpty(result)) {
             if (judgeEnable(recordBefore, record)) {
                 // 任务启用
                 sendTaskActive(record);
@@ -62,10 +74,10 @@ public class TaskAdminService extends TaskService {
     /**
      * 判断更新是否是禁用当前的任务
      */
-    private boolean judgeDisable(Record recordBefore, Record recordAfter) {
-        if (!RecordUtils.isEmpty(recordBefore) && !RecordUtils.isEmpty(recordAfter)) {
-            return recordBefore.getStr("status").equals(StatusEnum.YES.getName())
-                && recordAfter.getStr("status").equals(StatusEnum.NO.getName());
+    private boolean judgeDisable(NeoMap recordBefore, NeoMap recordAfter) {
+        if (!NeoMap.isEmpty(recordBefore) && !NeoMap.isEmpty(recordAfter)) {
+            return recordBefore.getStr("status").equals(StatusEnum.Y.getValue())
+                && recordAfter.getStr("status").equals(StatusEnum.N.getValue());
         }
         return false;
     }
@@ -73,10 +85,10 @@ public class TaskAdminService extends TaskService {
     /**
      * 判断更新是否是启用当前的任务
      */
-    private boolean judgeEnable(Record recordBefore, Record recordAfter) {
-        if (!RecordUtils.isEmpty(recordBefore) && !RecordUtils.isEmpty(recordAfter)) {
-            return recordBefore.getStr("status").equals(StatusEnum.NO.getName())
-                && recordAfter.getStr("status").equals(StatusEnum.YES.getName());
+    private boolean judgeEnable(NeoMap recordBefore, NeoMap recordAfter) {
+        if (!NeoMap.isEmpty(recordBefore) && !NeoMap.isEmpty(recordAfter)) {
+            return recordBefore.getStr("status").equals(StatusEnum.N.getValue())
+                && recordAfter.getStr("status").equals(StatusEnum.Y.getValue());
         }
         return false;
     }
@@ -84,44 +96,45 @@ public class TaskAdminService extends TaskService {
     /**
      * 判断当前任务是否是激活状态
      */
-    private boolean judgeEnable(Record record){
-        if(!RecordUtils.isEmpty(record)){
-            return record.getStr("status").equals(StatusEnum.YES.getName());
+    private boolean judgeEnable(NeoMap record){
+        if(!NeoMap.isEmpty(record)){
+            return record.getStr("status").equals(StatusEnum.Y.getValue());
         }
         return false;
     }
 
-    private void sendMsg(TaskChgEnum taskChgEnum, Record record){
-        TaskChgMsg chgMsg = new TaskChgMsg();
-        chgMsg.setAction(taskChgEnum);
-        // 删除情况下有点特殊，因为DB中已经没有改数据了，因此不能再通过ID进行获取数据
-        if (taskChgEnum.equals(TaskChgEnum.DELETE)) {
-            chgMsg.setTaskData(record);
-        } else{
-            chgMsg.setTaskData(String.valueOf(record.getLong("id")));
+    private void sendMsg(TaskChgMsg taskChgMsg){
+        MqMessage mqMessage = new MqMessage()
+            .setId(String.valueOf(getNeo().getUid()))
+            .setTag(KingConstant.TASK_CHG_TAG)
+             .setBusiness(KingConstant.APP_NAME)
+            .setData(JSON.toJSONString(taskChgMsg.getTaskData()));
+
+        MsgEntity msgEntity = new MsgEntity()
+            .setTopic("config_chg")
+            .setTag(KingConstant.TASK_CHG_TAG)
+            .setKeys("*")
+            .setMessage(JSON.toJSONString(mqMessage));
+
+        SendResult result = producer.send(msgEntity);
+        if(null != result){
+            log.info("发送成功，transactionId = {}, msgId={}, msg={}", result.getTransactionId(), result.getMsgId(), mqMessage);
         }
-        chgMsg.setId(String.valueOf(uuidService.getUUID()));
-        chgMsg.setTag(TinaConstant.TASK_CHG_TAG);
-        chgMsg.setBusinessType(TinaConstant.APP_NAME);
-
-        SendResult result = tinaProducer.send(OnsUtil.buildOnsMessage(onsProperties.getTopic(), chgMsg));
-
-        log.info("任务状态变更，发送mq: msg={}, result={}", JSON.toJSONString(chgMsg), result);
     }
 
-    private void sendTaskActive(Record record){
-        sendMsg(TaskChgEnum.ACTIVE, record);
+    private void sendTaskActive(NeoMap record){
+        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.ACTIVE).setTaskData(record.as(TaskEntity.class, NamingChg.UNDERLINE)));
     }
 
-    private void sendTaskDeActive(Record record){
-        sendMsg(TaskChgEnum.DE_ACTIVE, record);
+    private void sendTaskDeActive(NeoMap record){
+        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.DE_ACTIVE).setTaskData(record.as(TaskEntity.class, NamingChg.UNDERLINE)));
     }
 
-    private void sendTaskReload(Record record){
-        sendMsg(TaskChgEnum.RELOAD, record);
+    private void sendTaskReload(NeoMap record){
+        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.RELOAD).setTaskData(record.as(TaskEntity.class, NamingChg.UNDERLINE)));
     }
 
-    private void sendTaskDelete(Record record){
-        sendMsg(TaskChgEnum.DELETE, record);
+    private void sendTaskDelete(NeoMap record){
+        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.DELETE).setTaskData(record.as(TaskEntity.class, NamingChg.UNDERLINE)));
     }
 }
