@@ -22,8 +22,8 @@ public class EnvService {
      * 获取zk的地址，这里有多种方式获取配置地址
      */
     public String getZkAddress(){
-        if(null != getProperty("tina.zk.address")){
-            return getZkAddress(getProperty("tina.zk.address"));
+        if(null != getProperty("king.zk.address")){
+            return getZkAddress(getProperty("king.zk.address"));
         } else if (null != getProperty("spring.dubbo.registry.address")){
             return getZkAddress(getProperty("spring.dubbo.registry.address"));
         } else if(null != getProperty("dubbo.registry.address")){

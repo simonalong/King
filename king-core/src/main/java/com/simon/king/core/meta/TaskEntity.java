@@ -2,12 +2,14 @@ package com.simon.king.core.meta;
 
 import java.sql.Timestamp;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 任务表
  * @author robot
  */
 @Data
+@Accessors(chain = true)
 public class TaskEntity {
 
 

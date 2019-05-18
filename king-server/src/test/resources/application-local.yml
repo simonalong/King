@@ -3,8 +3,6 @@ server:
 king:
   zk:
     address: zookeeper://127.0.0.1:2181
-  rocketmq:
-    serverUrl: 127.0.0.1：9876
 spring:
   rabbitmq:
     host: localhost

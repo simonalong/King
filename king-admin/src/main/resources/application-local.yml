@@ -2,8 +2,13 @@ server:
   port: 8084
 king:
   rocketmq:
-    serverUrl: localhost：9876
+    serverUrl: 127.0.0.1：9876
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: com.mysql.jdbc.Driver

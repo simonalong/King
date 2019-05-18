@@ -13,8 +13,8 @@ import java.util.Date;
 public abstract class BaseService extends AbstractNeoService {
 
     @Override
-    public NeoMap insert(NeoMap record){
-        if(!record.containsKey("id")){
+    public NeoMap insert(NeoMap record) {
+        if (!record.containsKey("id")) {
             record.put("id", getNeo().getUid());
         }
         record.put("create_time", new Date());
@@ -23,8 +23,8 @@ public abstract class BaseService extends AbstractNeoService {
     }
 
     @Override
-    public NeoMap update(NeoMap record){
-        parseTimeUTC(record, "create_time");
+    public NeoMap update(NeoMap record) {
+//        parseTimeUTC(record, "create_time");
         record.put("update_time", new Date());
         return super.update(record);
     }

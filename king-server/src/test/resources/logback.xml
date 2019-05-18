@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60000" debug="true">
+
+    <property name="APP_NAME" value="tina-server"/>
+    <property name="LOG_HOME" value="${LIKE_LOG_PATH}"/>
+    <property name="LOG_LEVEL" value="${LIKE_LOG_LEVEL}"/>
+    <property name="LOG_KEEP_TIME" value="30"/>
+
+    <contextName>${APP_NAME}</contextName>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-4level] [%logger{36}] [%msg]%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="ADMIN_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-4level] [%logger{36}] [%msg]%n</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/simon.%d{yyyy-MM-dd}.log</FileNamePattern>
+            <MaxHistory>${LOG_KEEP_TIME}</MaxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <logger name="ch.qos.logback" level="ERROR" additivity="true"/>
+
+    <logger name="org.springframework" level="ERROR" additivity="true"/>
+
+    <logger name="com.simon.neo" level="${LOG_LEVEL}" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ADMIN_FILE"/>
+    </logger>
+
+    <logger name="com.simon.tina.server" level="${LOG_LEVEL}" additivity="false">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ADMIN_FILE"/>
+    </logger>
+
+    <root level="${LOG_LEVEL}">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

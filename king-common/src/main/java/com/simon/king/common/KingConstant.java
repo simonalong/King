@@ -5,9 +5,24 @@ package com.simon.king.common;
  * @since 2018/11/28 上午10:53
  */
 public interface KingConstant {
+
     String APP_NAME = "tina";
-    String TASK_CHG_TAG = "task_chg";
-    String CONFIG_CHG_TAG = "config_chg";
+    /**
+     * 生产者组
+     */
+    String PRODUCE_GROUP = "king_produce_group";
+    /**
+     * 消费者组
+     */
+    String CONSUMER_GROUP = "king_consumer_group";
+    /**
+     * 消息队列主题
+     */
+    String TOPIC = "king_task";
+    /**
+     * tag
+     */
+    String TAG = "task_chg";
 
     /**
      * 客户端获取远程配置的Tina的zk地址
