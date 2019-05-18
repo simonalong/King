@@ -109,7 +109,7 @@ public class TaskAdminService extends TaskService {
     }
 
     private void sendMsg(TaskChgMsg taskChgMsg){
-        this.rabbitTemplate.convertAndSend("hello", JSON.toJSONString(taskChgMsg));
+        this.rabbitTemplate.convertAndSend("task_chg", JSON.toJSONString(taskChgMsg));
     }
 
     private void sendTaskActive(NeoMap record){

@@ -22,7 +22,7 @@ public class TaskChgReceiver {
     private TaskExtService taskExtService;
     private TaskChgReceiver(){}
 
-    @RabbitListener(queues = "hello")
+    @RabbitListener(queues = "task_chg")
     public void process(String message) {
         TaskChgMsg taskChgMsg = JSON.parseObject(message, TaskChgMsg.class);
         log.info("consumer 接收消息: {}", JSON.toJSONString(taskChgMsg));
