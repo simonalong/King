@@ -20,14 +20,13 @@ import org.springframework.stereotype.Service;
 public class ParserService {
 
     @Autowired
-    private Neo tina;
-//    @Autowired
-//    private ConfigGroupService configGroupService;
+    private Neo king;
 
     // groovy 脚本引入的jar包，目前groovy脚本中已经默认引入groovy和Java基本的一些包，这里暂时不引入
     private static final String TEMPLAT = ""
         + "import groovy.lang.*\n"
-        + "import java.lang.*\n"
+        + "import java.lang.*;\n"
+        + "import lombok.extern.slf4j.Slf4j;\n"
         + "\n";
 
     /**
@@ -58,7 +57,7 @@ public class ParserService {
      * 将一些服务传入脚本
      */
     private NeoMap init(Object params) {
-        return NeoMap.of("tina", tina,
+        return NeoMap.of("db", king,
             "log", log,
             "params", params
         );

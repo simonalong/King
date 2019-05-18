@@ -1,4 +1,2 @@
-println "*********************"
-println 123
-println "*********************"
-return 12
+dataMap.log.info("dddaaa")
+return "3122"

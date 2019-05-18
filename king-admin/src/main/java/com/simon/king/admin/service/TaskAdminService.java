@@ -113,15 +113,15 @@ public class TaskAdminService extends TaskService {
     }
 
     private void sendTaskActive(NeoMap record){
-        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.ACTIVE).setTaskData(record.as(TaskEntity.class, NamingChg.UNDERLINE)));
+        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.ACTIVE).setTaskData(record.getLong("id")));
     }
 
     private void sendTaskDeActive(NeoMap record){
-        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.DE_ACTIVE).setTaskData(record.as(TaskEntity.class, NamingChg.UNDERLINE)));
+        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.DE_ACTIVE).setTaskData(record.getLong("id")));
     }
 
     private void sendTaskReload(NeoMap record){
-        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.RELOAD).setTaskData(record.as(TaskEntity.class, NamingChg.UNDERLINE)));
+        sendMsg(new TaskChgMsg().setAction(TaskChgEnum.RELOAD).setTaskData(record.getLong("id")));
     }
 
     private void sendTaskDelete(NeoMap record){
