@@ -1,6 +1,5 @@
 package com.simon.king.server.cache;
 
-import com.simon.king.core.meta.BizCacheEnum;
 import com.simon.neo.NeoMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,7 @@ public class ConfigCacheHelper {
     private static final String TAG = "tag";
 
     public NeoMap get(String group, String key, String tag){
-        return cacheManager.get(BizCacheEnum.CONFIG, NeoMap.of(GROUP, group, KEY, key, TAG, tag));
+        return cacheManager.get(NeoMap.of(GROUP, group, KEY, key, TAG, tag));
     }
 
     public NeoMap get(NeoMap record){
@@ -27,7 +26,7 @@ public class ConfigCacheHelper {
     }
 
     public void delete(String group, String key, String tag){
-        cacheManager.delete(BizCacheEnum.CONFIG, NeoMap.of(GROUP, group, KEY, key, TAG, tag));
+        cacheManager.delete(NeoMap.of(GROUP, group, KEY, key, TAG, tag));
     }
 
     public void delete(NeoMap record){

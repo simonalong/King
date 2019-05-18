@@ -1,6 +1,5 @@
 package com.simon.king.server.cache;
 
-import com.simon.king.core.meta.BizCacheEnum;
 import com.simon.neo.NeoMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,19 +18,19 @@ public class TaskCacheHelper {
     private static final String ID = "id";
 
     public NeoMap get(Long id){
-        return cacheManager.get(BizCacheEnum.TASK, NeoMap.of(ID, id));
+        return cacheManager.get(NeoMap.of(ID, id));
     }
 
     public NeoMap get(String taskGroup, String taskName){
-        return cacheManager.get(BizCacheEnum.TASK, NeoMap.of(GROUP, taskGroup, KEY, taskName));
+        return cacheManager.get(NeoMap.of(GROUP, taskGroup, KEY, taskName));
     }
 
     private void delete(Long id){
-        cacheManager.delete(BizCacheEnum.TASK, NeoMap.of(ID, id));
+        cacheManager.delete(NeoMap.of(ID, id));
     }
 
     private void delete(String taskGroup, String taskName){
-        cacheManager.delete(BizCacheEnum.TASK, NeoMap.of(GROUP, taskGroup, KEY, taskName));
+        cacheManager.delete(NeoMap.of(GROUP, taskGroup, KEY, taskName));
     }
 
     public void delete(NeoMap record){

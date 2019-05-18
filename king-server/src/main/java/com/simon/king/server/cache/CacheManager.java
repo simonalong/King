@@ -3,6 +3,8 @@ package com.simon.king.server.cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.cache.RemovalListener;
+import com.google.common.cache.RemovalNotification;
 import com.simon.king.core.dao.TaskDao;
 import com.simon.king.core.meta.BizCacheEnum;
 import com.simon.neo.NeoMap;
@@ -23,73 +25,52 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class CacheManager implements InitializingBean {
+public class CacheManager {
 
     @Autowired
     private TaskDao taskDao;
     /**
      * 调度中心的缓存
      */
-    private LoadingCache<CacheKey, NeoMap> cacheTask;
-
-    @Override
-    public void afterPropertiesSet() {
-        initTask();
-    }
-
-    /**
-     * 初始化配置的缓存
-     */
-    private void initTask(){
-        cacheTask = CacheBuilder.newBuilder()
-            // 设置缓存访问后往后延迟1分钟
-            .expireAfterAccess(1, TimeUnit.MINUTES)
-            // 设置缓存容器的初始容量为20
-            .initialCapacity(20)
-            // 设置回调
-            .build(new CacheLoader<CacheKey, NeoMap>() {
-                @Override
-                public NeoMap load(@Nonnull CacheKey key) {
-                    log.debug("[Tina]：调度任务从DB中获取放入cache，key = {}", key.toString());
-                    NeoMap params = key.getParam();
-                    if(params.containsKeys("id")){
-                        NeoMap record = taskDao.oneIgnoreStatus(params.getLong("id"));
-                        if (null == record) {
-                            record = NeoMap.of();
-                        }
-                        return record;
-                    } else if(params.containsKeys("task_group", "task_name")){
-                        NeoMap record = taskDao.oneIgnoreStatus(params.getStr("task_group"), params.getStr("task_name"));
-                        if (null == record) {
-                            record = NeoMap.of();
-                        }
-                        return record;
+    private LoadingCache<CacheKey, NeoMap> cacheTask = CacheBuilder
+        .newBuilder()
+        //设置写缓存后3秒钟过期
+        .expireAfterWrite(3, TimeUnit.MINUTES)
+        //设置缓存容器的初始容量为10
+        .initialCapacity(30)
+        //设置要统计缓存的命中率
+        .recordStats()
+        //设置缓存的移除通知
+        .removalListener((RemovalListener<CacheKey, NeoMap>) notification -> log.info(notification.getKey() + " was removed, cause is " + notification.getCause()))
+        .build(new CacheLoader<CacheKey, NeoMap>() {
+            @Override
+            public NeoMap load(CacheKey key) throws Exception {
+                log.debug("[Tina]：调度任务从DB中获取放入cache，key = {}", key.toString());
+                NeoMap params = key.getParam();
+                if(params.containsKeys("id")){
+                    NeoMap record = taskDao.oneIgnoreStatus(params.getLong("id"));
+                    if (null == record) {
+                        record = NeoMap.of();
                     }
-                    return NeoMap.of();
+                    return record;
+                } else if(params.containsKeys("task_group", "task_name")){
+                    NeoMap record = taskDao.oneIgnoreStatus(params.getStr("task_group"), params.getStr("task_name"));
+                    if (null == record) {
+                        record = NeoMap.of();
+                    }
+                    return record;
                 }
-            });
-    }
-
-    public void delete(BizCacheEnum businessEnum, NeoMap record){
-        CacheKey key = CacheKey.of(businessEnum, record);
-        switch (businessEnum){
-            case TASK:{
-                cacheTask.invalidate(key);
-                return;
+                return NeoMap.of();
             }
-            default:break;
-        }
+        });
+
+    public void delete(NeoMap record){
+        cacheTask.invalidate(CacheKey.of(record));
     }
 
-    public NeoMap get(BizCacheEnum businessEnum, NeoMap record) {
-        CacheKey key = CacheKey.of(businessEnum, record);
+    public NeoMap get(NeoMap record) {
         try {
-            switch (businessEnum) {
-                case TASK: {
-                    return cacheTask.get(key);
-                }
-                default: break;
-            }
+            return cacheTask.get(CacheKey.of(record));
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
@@ -100,13 +81,11 @@ public class CacheManager implements InitializingBean {
     @RequiredArgsConstructor(staticName = "of")
     public static class CacheKey {
         @NonNull
-        private BizCacheEnum businessEnum;
-        @NonNull
         private NeoMap param;
 
         @Override
         public String toString(){
-            return businessEnum + "-" + param.toString();
+            return param.toString();
         }
     }
 }
