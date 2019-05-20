@@ -29,5 +29,4 @@ public class ParserServiceTest extends BaseSpringBootTest{
     public void test1(){
         runScript("/script/base.groovy");
     }
-
 }

@@ -1,20 +1,10 @@
 package com.simon.king.server;
 
-import com.alibaba.fastjson.JSON;
 import com.simon.king.groovy.HttpService;
-import com.simon.king.groovy.HttpService.HttpException;
 import com.simon.neo.NeoMap;
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Request.Builder;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

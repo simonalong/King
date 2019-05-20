@@ -1,4 +1,6 @@
-dataMap.log.info("dddaaa")
+
 def http = dataMap.http
-print http.url("namespace3/test/nihao/haode").get();
+def log = dataMap.log
+log.info("dddaaa")
+print http.get("namespace3/test/get/haode").send();
 return "3122"
