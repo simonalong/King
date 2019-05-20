@@ -8,8 +8,11 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Request.Builder;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import org.junit.Test;
@@ -36,34 +39,34 @@ public class HttpServiceTest extends BaseSpringBootTest {
 
     @Test
     public void testGet(){
-        System.out.println(httpService.url("namespace3/test/get/haode").get());
+        System.out.println(httpService.get("namespace3/test/get/haode").send());
     }
 
     @Test
     public void testPost(){
-        System.out.println(httpService.url("namespace3/test/post").body(NeoMap.of("a", 1, "c", 2)).post());
+        System.out.println(httpService.post("namespace3/test/post").body(NeoMap.of("a", 1, "c", 2)).send());
     }
 
-    @Test
-    public void testHead(){
-        System.out.println(httpService.url("namespace3/test/head/ena").head());
-    }
+//    @Test
+//    public void testHead(){
+//        System.out.println(httpService.url("namespace3/test/head/ena").head());
+//    }
 
     /**
      * delete必须有body
      */
     @Test
     public void testDelete(){
-        System.out.println(httpService.url("namespace3/test/delete/ena").body(NeoMap.of("a", 1)).delete());
+        System.out.println(httpService.delete("namespace3/test/delete/ena").body(NeoMap.of("a", 1)).send());
     }
 
     @Test
     public void testPut(){
-        System.out.println(httpService.url("namespace3/test/put").body(NeoMap.of("a", 1222)).put());
+        System.out.println(httpService.put("namespace3/test/put").body(NeoMap.of("a", 1222)).send());
     }
 
     @Test
     public void testPatch(){
-        System.out.println(httpService.url("namespace3/test/patch").body(NeoMap.of("patch", 199222)).patch());
+        System.out.println(httpService.patch("namespace3/test/patch").body(NeoMap.of("patch", 199222)).send());
     }
 }
