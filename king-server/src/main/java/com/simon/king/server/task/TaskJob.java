@@ -1,8 +1,7 @@
 package com.simon.king.server.task;
 
 import com.simon.king.core.meta.TaskEnum;
-import com.simon.king.core.service.ParserService;
-import com.simon.king.server.KingServerConstant;
+import com.simon.king.groovy.ParserService;
 import com.simon.king.server.service.TaskExtService;
 import com.simon.king.server.task.monitor.TaskMonitorEntity;
 import com.simon.king.server.util.BeanUtils;

@@ -12,4 +12,18 @@
     <artifactId>integration</artifactId>
     <description>集成测试模块</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.simon.cloud</groupId>
+            <artifactId>king-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 </project>

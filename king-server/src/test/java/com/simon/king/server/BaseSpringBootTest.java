@@ -13,4 +13,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest(classes = KingServerApplication.class)
 public class BaseSpringBootTest {
 
+    public void show(Object object){
+        if(null == object){
+            System.out.println("obj is null");
+        }
+        System.out.println(object);
+    }
 }

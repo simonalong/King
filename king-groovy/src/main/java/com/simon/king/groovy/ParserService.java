@@ -1,6 +1,6 @@
-package com.simon.king.core.service;
+package com.simon.king.groovy;
 
-import com.simon.king.core.parse.GroovyScriptFactory;
+import com.simon.king.groovy.parse.GroovyScriptFactory;
 import com.simon.neo.Neo;
 import com.simon.neo.NeoMap;
 import groovy.lang.Binding;
@@ -21,6 +21,10 @@ public class ParserService {
 
     @Autowired
     private Neo king;
+    @Autowired
+    private HttpService httpService;
+    @Autowired
+    private NameSpaceInterface nameSpaceInterface;
 
     // groovy 脚本引入的jar包，目前groovy脚本中已经默认引入groovy和Java基本的一些包，这里暂时不引入
     private static final String TEMPLAT = ""
@@ -34,6 +38,7 @@ public class ParserService {
      */
     public Object parse(String script, Object params) {
         try {
+            log.error("数据信息：" + nameSpaceInterface.getIpAndPort("namespace3"));
             return GroovyScriptFactory.getInstance().scriptGetAndRun(script, new Binding(NeoMap.of("dataMap", init(params))));
         } catch (Exception e) {
             log.error("groovy 脚本执行失败：{}", e.getMessage());
@@ -57,7 +62,9 @@ public class ParserService {
      * 将一些服务传入脚本
      */
     private NeoMap init(Object params) {
-        return NeoMap.of("db", king,
+        return NeoMap.of(
+            "db", king,
+            "http", httpService,
             "log", log,
             "params", params
         );

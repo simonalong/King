@@ -9,30 +9,34 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>king-spring-boot-starter</artifactId>
-    <description>给业务方使用，主要用于向zookeeper注册命名空间</description>
+    <artifactId>king-groovy</artifactId>
+    <description>该模块用于对groovy脚本的支持，由于里面涉及到命名服务转换，放到king-core中不再合适</description>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.simon.cloud</groupId>
-            <artifactId>king-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.simon.cloud</groupId>
-            <artifactId>king-common</artifactId>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-core</artifactId>
+            <groupId>com.simon.cloud</groupId>
+            <artifactId>Neo</artifactId>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
 
+    </dependencies>
 </project>

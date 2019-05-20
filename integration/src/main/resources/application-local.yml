@@ -1,8 +1,9 @@
 server:
-  port: 8085
+  port: 8088
 king:
   zk:
     address: zookeeper://127.0.0.1:2181
+  namespace: namespace3
 spring:
   rabbitmq:
     host: localhost

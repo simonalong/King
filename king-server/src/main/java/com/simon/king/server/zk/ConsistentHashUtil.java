@@ -1,5 +1,6 @@
 package com.simon.king.server.zk;
 
+
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -26,7 +27,7 @@ import org.springframework.util.StringUtils;
  * @since 2019/1/28 下午4:12
  */
 @Slf4j
-public class ConsistentHash {
+public class ConsistentHashUtil {
 
     /**
      * 用可序化的线程安全map存储数据
@@ -41,7 +42,7 @@ public class ConsistentHash {
      */
     private static Integer HASH_MAX_SIZE = 1 << SIZE_POWER;
 
-    private static ConsistentHash instance = new ConsistentHash();
+    private static ConsistentHashUtil instance = new ConsistentHashUtil();
 
     /**
      * 拆分回调的钩子，其中Pair类型中key为旧的服务名字，value为新的服务名字，Map中的value的ControlRange类型为对应的交接范围
@@ -52,9 +53,9 @@ public class ConsistentHash {
      */
     BiConsumer<Pair<String, String>, ControlRange> mergeHook;
 
-    private ConsistentHash(){}
+    private ConsistentHashUtil(){}
 
-    public static ConsistentHash getInstance(){
+    public static ConsistentHashUtil getInstance(){
         return instance;
     }
 

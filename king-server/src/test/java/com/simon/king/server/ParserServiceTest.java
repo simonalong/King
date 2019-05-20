@@ -1,7 +1,7 @@
 package com.simon.king.server;
 
 import com.simon.king.common.util.FileUtil;
-import com.simon.king.core.service.ParserService;
+import com.simon.king.groovy.ParserService;
 import java.io.IOException;
 import lombok.SneakyThrows;
 import org.junit.Test;
@@ -29,4 +29,5 @@ public class ParserServiceTest extends BaseSpringBootTest{
     public void test1(){
         runScript("/script/base.groovy");
     }
+
 }

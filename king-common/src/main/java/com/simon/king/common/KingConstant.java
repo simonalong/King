@@ -6,54 +6,16 @@ package com.simon.king.common;
  */
 public interface KingConstant {
 
-    String APP_NAME = "tina";
     /**
-     * 生产者组
+     * zk中的节点路径，这是根节点
      */
-    String PRODUCE_GROUP = "king_produce_group";
+    String ROOT_PATH = "/king";
     /**
-     * 消费者组
+     * zk中的服务节点
      */
-    String CONSUMER_GROUP = "king_consumer_group";
+    String SERVER_PATH = ROOT_PATH + "/server";
     /**
-     * 消息队列主题
+     * zk中的客户端节点
      */
-    String TOPIC = "king_task";
-    /**
-     * tag
-     */
-    String TAG = "task_chg";
-
-    /**
-     * 客户端获取远程配置的Tina的zk地址
-     */
-    String TINA_ZK_ADDRESS = "tina.zkAddress";
-    /**
-     * 客户端配置启动的应用名字的key，启动时候作为系统属性-Dtina.group=xxx，如果不设置，则不向Tina服务获取配置
-     */
-    String TINA_GROUP = "tina.group";
-    /**
-     * 客户端配置应用的启动配置，启动时候作为系统属性-Dtina.start.key=xxx，如果不设置，则默认为start
-     */
-    String TINA_START_KEY = "tina.start.key";
-    /**
-     * 客户端配置应用的启动配置的标签，启动时候作为系统属性-Dtina.start.tag=xxx，如果不设置，则默认为start
-     */
-    String TINA_START_TAG = "tina.start.tag";
-    /**
-     * 应用的启动配置的key
-     */
-    String DEFAULT_START_KEY = "start";
-    /**
-     * 应用的启动配置的标签
-     */
-    String DEFAULT_START_TAG = "start";
-    /**
-     * 基本类型跟复杂类型的区别
-     */
-    String BASE_TYPE_KEY = "_base_";
-    /**
-     * 默认的标签值
-     */
-    String DEFAULT_TAG = "default";
+    String CLIENT_PATH = ROOT_PATH + "/client";
 }

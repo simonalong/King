@@ -1,8 +1,8 @@
 package com.simon.king.server.task;
 
-import com.simon.king.server.service.EnvService;
+import com.simon.king.core.service.ZkParserService;
 import com.simon.king.server.task.monitor.TaskMonitorService;
-import com.simon.king.server.zk.ZooKeeperHelper;
+import com.simon.king.server.zk.HashManager;
 import com.simon.neo.NeoMap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
@@ -18,14 +18,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class TaskManager implements InitializingBean {
 
-    private static final int SESSION_TIMEOUT = 10000;
     @Autowired
     private TaskScheduler taskScheduler;
     @Autowired
     private TaskMonitorService monitorService;
     @Autowired
-    private EnvService envService;
-    private ZooKeeperHelper zk;
+    private ZkParserService zkParserService;
+    /**
+     * 一致性哈希服务的hash管理器
+     */
+    private HashManager manager;
 
     @Override
     public void afterPropertiesSet(){
@@ -37,7 +39,9 @@ public class TaskManager implements InitializingBean {
      * 将当前服务注册到zk
      */
     private void registerZKNode(){
-        zk = ZooKeeperHelper.getInstance((k, v) -> {
+        manager = HashManager.getInstance();
+        manager.registerAddAndRemove(
+            (k, v) -> {
                 log.info("服务" + k + "新增控制范围" + v.toString());
                 taskScheduler.submit(v.getFrom(), v.getTo());
             },(k, v) -> {
@@ -46,15 +50,16 @@ public class TaskManager implements InitializingBean {
             }
         );
         // 设置节点最小的作为监控器
-        zk.registerInitGuardHook(()-> {
+        manager.registerGuardHook(() -> {
             log.info("当前应用作为哨兵进行监控");
             monitorService.startMonitor();
         });
-        zk.createConnection(envService.getZkAddress(), SESSION_TIMEOUT);
+
+        manager.initZookeeper(zkParserService.getZkAddress());
     }
 
     private void closeNode(){
-        zk.releaseConnection();
+        manager.close();
     }
 
     /**
@@ -63,8 +68,8 @@ public class TaskManager implements InitializingBean {
      */
     public boolean taskBelongToSelf(NeoMap record){
         if (!NeoMap.isEmpty(record)){
-            if (null != zk){
-                return zk.idIsControlled(record.getLong("id"));
+            if (null != manager){
+                return manager.idIsControlled(record.getLong("id"));
             }
         }
         return false;

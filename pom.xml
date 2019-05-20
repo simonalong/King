@@ -76,6 +76,11 @@
             </dependency>
             <dependency>
                 <groupId>com.simon.cloud</groupId>
+                <artifactId>king-groovy</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.simon.cloud</groupId>
                 <artifactId>king-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -148,6 +153,13 @@
                 <version>1.5.9.RELEASE</version>
             </dependency>
 
+            <!-- https://mvnrepository.com/artifact/org.apache.struts/struts2-core -->
+            <dependency>
+                <groupId>org.apache.struts</groupId>
+                <artifactId>struts2-core</artifactId>
+                <version>2.5.12</version>
+            </dependency>
+
             <!--spring-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -193,5 +205,6 @@
         <module>integration</module>
         <module>king-core</module>
         <module>king-common</module>
+        <module>king-groovy</module>
     </modules>
 </project>

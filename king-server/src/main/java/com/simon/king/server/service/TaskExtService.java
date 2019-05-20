@@ -4,11 +4,11 @@ import com.simon.king.core.dao.TaskDao;
 import com.simon.king.core.meta.TaskChgEnum;
 import com.simon.king.core.meta.TimingTypeEnum;
 import com.simon.king.core.mq.TaskChgMsg;
-import com.simon.king.core.service.TaskService;
 import com.simon.king.server.cache.TaskCacheHelper;
 import com.simon.king.server.task.Task;
 import com.simon.king.server.task.TaskManager;
 import com.simon.king.server.task.TaskScheduler;
+import com.simon.neo.Neo;
 import com.simon.neo.NeoMap;
 import java.util.Date;
 import java.util.List;
@@ -24,8 +24,10 @@ import org.springframework.util.StringUtils;
  */
 @Service
 @Slf4j
-public class TaskExtService extends TaskService {
+public class TaskExtService {
 
+    @Autowired
+    private Neo neo;
     @Autowired
     private TaskDao taskDao;
     @Autowired
@@ -34,6 +36,7 @@ public class TaskExtService extends TaskService {
     private TaskCacheHelper taskCacheHelper;
     @Autowired
     private TaskManager taskManager;
+    private String tableName = "t_task";
 
     private static final String TIMING_TYPE_COLUMN = "timing_type";
 
@@ -75,12 +78,10 @@ public class TaskExtService extends TaskService {
         }
     }
 
-    @Override
     public NeoMap one(Long id) {
         return taskCacheHelper.get(id);
     }
 
-    @Override
     public NeoMap one(String taskGroup, String taskName) {
         return taskCacheHelper.get(taskGroup, taskName);
     }
@@ -146,19 +147,20 @@ public class TaskExtService extends TaskService {
         }
         return null;
     }
+
     /**
      * 获取在1024中的控制范围，在数据库中对应的数据量
      */
     public Integer getRangeCount(Integer from, Integer to) {
-        return getNeo().exeCount("select count(1) from %s where (id & 1023) BETWEEN ? and ? and status = 'Y'",
-                getTableName(), from, to);
+        return neo.exeCount("select count(1) from %s where (id & 1023) BETWEEN ? and ? and status = 'Y'",
+                tableName, from, to);
     }
 
     /**
      * 获取在1024中的控制范围，在数据库中对应的数据量
      */
     public List<NeoMap> getRangeList(Integer from, Integer to, Integer pageStart, Integer pageSize) {
-        return getNeo().exeList("select * from %s where (id & 1023) BETWEEN ? and ? and status = 'Y' limit ?,?",
-            getTableName(), from, to, pageStart, pageSize);
+        return neo.exeList("select * from %s where (id & 1023) BETWEEN ? and ? and status = 'Y' limit ?,?",
+            tableName, from, to, pageStart, pageSize);
     }
 }
