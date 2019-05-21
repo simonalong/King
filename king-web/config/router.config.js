@@ -18,30 +18,18 @@ export default [
     authority: ['admin', 'user'],
     routes: [
       // dashboard
-      { path: '/', redirect: '/dashboard/analysis' },
+      { path: '/', redirect: '/task-list' },
       {
-        path: '/config',
+        path: '/config-group-list',
         icon: 'setting',
-        name: 'config',
-        routes: [
-          {
-            path: '/config/config-group-list',
-            name: 'configgrouplist',
-            component: './config/ConfigGroupList',
-          },
-        ],
+        name: 'configgrouplist',
+        component: './config/ConfigGroupList',
       },
       {
-        path: '/task',
+        path: '/task-list',
         icon: 'project',
-        name: 'task',
-        routes: [
-          {
-            path: '/task/task-list',
-            name: 'tasklist',
-            component: './like/TaskList',
-          },
-        ],
+        name: 'tasklist',
+        component: './like/TaskList',
       },
       {
         component: '404',

@@ -30,6 +30,7 @@ public class ParserService {
     private static final String TEMPLAT = ""
         + "import groovy.lang.*\n"
         + "import java.lang.*;\n"
+        + "import com.simon.neo.*;\n"
         + "import lombok.extern.slf4j.Slf4j;\n"
         + "\n";
 
@@ -38,8 +39,7 @@ public class ParserService {
      */
     public Object parse(String script, Object params) {
         try {
-            log.error("数据信息：" + nameSpaceInterface.getIpAndPort("namespace3"));
-            return GroovyScriptFactory.getInstance().scriptGetAndRun(script, new Binding(NeoMap.of("dataMap", init(params))));
+            return GroovyScriptFactory.getInstance().scriptGetAndRun(TEMPLAT + script, new Binding(NeoMap.of("dataMap", init(params))));
         } catch (Exception e) {
             log.error("groovy 脚本执行失败：{}", e.getMessage());
         }
@@ -51,7 +51,7 @@ public class ParserService {
      */
     public Object parseAndResult(String script, Object params) {
         try {
-            return GroovyScriptFactory.getInstance().scriptGetAndRun(script, new Binding(NeoMap.of("dataMap", init(params))));
+            return GroovyScriptFactory.getInstance().scriptGetAndRun(TEMPLAT + script, new Binding(NeoMap.of("dataMap", init(params))));
         } catch (Exception e) {
             log.error("groovy 脚本执行失败：{}", e.getMessage());
             return MessageFormat.format("groovy 脚本执行失败：{0}", e.getMessage());

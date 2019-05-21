@@ -1,6 +1,6 @@
+import com.simon.neo.NeoMap
 
 def http = dataMap.http
 def log = dataMap.log
 log.info("dddaaa")
-print http.get("namespace3/test/get/haode").send();
-return "3122"
+return http.get("springbootdemo/test/kingPost").body(NeoMap.of("a", 1, "b", "ok")).send();

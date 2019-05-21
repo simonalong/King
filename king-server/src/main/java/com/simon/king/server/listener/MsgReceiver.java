@@ -31,7 +31,7 @@ public class MsgReceiver {
     @RabbitListener(queues = "task_chg")
     public void taskChg(String message) {
         TaskChgMsg taskChgMsg = JSON.parseObject(message, TaskChgMsg.class);
-        log.info("consumer 接收消息: {}", JSON.toJSONString(taskChgMsg));
+        log.info("consumer-taskChg 接收消息: {}", JSON.toJSONString(taskChgMsg));
         if(null != taskChgMsg) {
             // 单机消息幂等设置
             if (Idempotency.getInstance().setExpire(10, TimeUnit.SECONDS).contain(taskChgMsg)) {
@@ -44,7 +44,7 @@ public class MsgReceiver {
 
     @RabbitListener(queues = "namespace_ip_send")
     public void namespaceIp(String message) {
-        log.info("consumer 接收消息: {}", message);
+        log.info("consumer-namespaceIp 接收消息: {}", message);
         if(null != message) {
             String ipPort = nameSpaceService.getIpAndPort(message);
             rabbitTemplate.convertAndSend("namespace_ip_receive", ipPort);

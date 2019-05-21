@@ -25,5 +25,9 @@
             <groupId>com.simon.cloud</groupId>
             <artifactId>king-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.simon.cloud</groupId>
+            <artifactId>Neo</artifactId>
+        </dependency>
     </dependencies>
 </project>

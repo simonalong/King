@@ -1,4 +1,4 @@
-package com.simon.king.core.service;
+package com.simon.king.server.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;

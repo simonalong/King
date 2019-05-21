@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
  * @author zhouzhenyong
  * @since 2019/5/17 下午2:31
  */
-@ComponentScan(basePackages = {"com.simon.king.starter", "com.simon.king.core"})
+@ComponentScan(basePackages = {"com.simon.king.starter"})
 @Configuration
 public class KingAutoConfiguration {
 

@@ -117,6 +117,10 @@ public class HttpService {
                         .build()).execute());
                     break;
                 }
+                case HEAD:{
+                    result = JSON.toJSONString(getResponseHead(httpClient.newCall(builder.head().build()).execute()));
+                    break;
+                }
                 case PUT:{
                     result = getResponseBody(httpClient.newCall(builder
                         .put(RequestBody.create(MediaType.parse("application/json"), bodyJson.get()))
@@ -149,7 +153,7 @@ public class HttpService {
         return result;
     }
 
-    public String getResponseBody(Response response) throws IOException {
+    private String getResponseBody(Response response) throws IOException {
         if (!response.isSuccessful()) {
             try (ResponseBody body = response.body()) {
                 assert body != null;
@@ -159,6 +163,19 @@ public class HttpService {
             }
         }else{
             return response.body().string();
+        }
+    }
+
+    private NeoMap getResponseHead(Response response) throws IOException {
+        if (!response.isSuccessful()) {
+            try (ResponseBody body = response.body()) {
+                assert body != null;
+                throw new HttpException("code = " + response.code()
+                    + ", url = " + response.request().url().toString()
+                    + ", body = " + body.string());
+            }
+        }else{
+            return NeoMap.fromMap(response.headers().toMultimap());
         }
     }
 

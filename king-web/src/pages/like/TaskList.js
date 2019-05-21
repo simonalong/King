@@ -107,16 +107,16 @@ const CreateForm = Form.create()(prop => {
           </Select>
         )}
       </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="任务类型" hasFeedback>
-        {form.getFieldDecorator('task_type', {
-          rules: [{ required: true, message: '请输入任务类型！' }],
-        })(
-          <Select style={{ width: '100%' }}>
-            <Select.Option value="GROOVY">groovy脚本</Select.Option>
-            <Select.Option value="URL">url链接post方式</Select.Option>
-          </Select>
-        )}
-      </FormItem>
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="任务类型" hasFeedback>*/}
+        {/*{form.getFieldDecorator('task_type', {*/}
+          {/*rules: [{ required: true, message: '请输入任务类型！' }],*/}
+        {/*})(*/}
+          {/*<Select style={{ width: '100%' }}>*/}
+            {/*<Select.Option value="GROOVY">groovy脚本</Select.Option>*/}
+            {/*<Select.Option value="URL">url链接post方式</Select.Option>*/}
+          {/*</Select>*/}
+        {/*)}*/}
+      {/*</FormItem>*/}
       <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="数据" hasFeedback>
         {form.getFieldDecorator('data', {
           rules: [{ required: false, message: '请输入数据！' }],
@@ -145,31 +145,31 @@ const CreateForm = Form.create()(prop => {
           />
         )}
       </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="参数" hasFeedback>
-        {form.getFieldDecorator('param', {
-          rules: [{ required: false, message: '请输入参数！' }],
-        })(<Input placeholder="请输入参数" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="执行状态" hasFeedback>
-        {form.getFieldDecorator('run_status', {
-          rules: [{ required: false, message: '请输入执行状态！' }],
-        })(
-          <Select style={{ width: '100%' }}>
-            <Select.Option value="RUNNING">执行中</Select.Option>
-            <Select.Option value="DONE">完成</Select.Option>
-          </Select>
-        )}
-      </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="创建人" hasFeedback>
-        {form.getFieldDecorator('create_user_name', {
-          rules: [{ required: false, message: '请输入创建人！' }],
-        })(<Input placeholder="请输入创建人" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="修改人" hasFeedback>
-        {form.getFieldDecorator('update_user_name', {
-          rules: [{ required: false, message: '请输入修改人！' }],
-        })(<Input placeholder="请输入修改人" />)}
-      </FormItem>
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="参数" hasFeedback>*/}
+        {/*{form.getFieldDecorator('param', {*/}
+          {/*rules: [{ required: false, message: '请输入参数！' }],*/}
+        {/*})(<Input placeholder="请输入参数" />)}*/}
+      {/*</FormItem>*/}
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="执行状态" hasFeedback>*/}
+        {/*{form.getFieldDecorator('run_status', {*/}
+          {/*rules: [{ required: false, message: '请输入执行状态！' }],*/}
+        {/*})(*/}
+          {/*<Select style={{ width: '100%' }}>*/}
+            {/*<Select.Option value="RUNNING">执行中</Select.Option>*/}
+            {/*<Select.Option value="DONE">完成</Select.Option>*/}
+          {/*</Select>*/}
+        {/*)}*/}
+      {/*</FormItem>*/}
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="创建人" hasFeedback>*/}
+        {/*{form.getFieldDecorator('create_user_name', {*/}
+          {/*rules: [{ required: false, message: '请输入创建人！' }],*/}
+        {/*})(<Input placeholder="请输入创建人" />)}*/}
+      {/*</FormItem>*/}
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="修改人" hasFeedback>*/}
+        {/*{form.getFieldDecorator('update_user_name', {*/}
+          {/*rules: [{ required: false, message: '请输入修改人！' }],*/}
+        {/*})(<Input placeholder="请输入修改人" />)}*/}
+      {/*</FormItem>*/}
     </Modal>
   );
 });
@@ -328,17 +328,17 @@ const EditForm = Form.create()(props => {
           </Select>
         )}
       </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="任务类型">
-        {form.getFieldDecorator('task_type', {
-          initialValue: item.task_type,
-          rules: [{ required: false, message: '请输入任务类型！' }],
-        })(
-          <Select style={{ width: '100%' }}>
-            <Select.Option value="GROOVY">groovy脚本</Select.Option>
-            <Select.Option value="URL">url链接post方式</Select.Option>
-          </Select>
-        )}
-      </FormItem>
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="任务类型">*/}
+        {/*{form.getFieldDecorator('task_type', {*/}
+          {/*initialValue: item.task_type,*/}
+          {/*rules: [{ required: false, message: '请输入任务类型！' }],*/}
+        {/*})(*/}
+          {/*<Select style={{ width: '100%' }}>*/}
+            {/*<Select.Option value="GROOVY">groovy脚本</Select.Option>*/}
+            {/*<Select.Option value="URL">url链接post方式</Select.Option>*/}
+          {/*</Select>*/}
+        {/*)}*/}
+      {/*</FormItem>*/}
       <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="数据">
         {form.getFieldDecorator('data', {
           initialValue: item.data,
@@ -364,35 +364,35 @@ const EditForm = Form.create()(props => {
           />
         )}
       </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="参数">
-        {form.getFieldDecorator('param', {
-          initialValue: item.param,
-          rules: [{ required: false, message: '请输入参数！' }],
-        })(<Input placeholder="请输入参数" />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="执行状态">
-        {form.getFieldDecorator('run_status', {
-          initialValue: item.run_status,
-          rules: [{ required: false, message: '请输入执行状态！' }],
-        })(
-          <Select style={{ width: '100%' }}>
-            <Select.Option value="RUNNING">执行中</Select.Option>
-            <Select.Option value="DONE">完成</Select.Option>
-          </Select>
-        )}
-      </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="创建人">
-        {form.getFieldDecorator('create_user_name', {
-          initialValue: item.create_user_name,
-          rules: [{ required: false, message: '请输入创建人！' }],
-        })(<Input placeholder="请输入创建人" disabled />)}
-      </FormItem>
-      <FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="修改人">
-        {form.getFieldDecorator('update_user_name', {
-          initialValue: item.update_user_name,
-          rules: [{ required: false, message: '请输入修改人！' }],
-        })(<Input placeholder="请输入修改人" disabled />)}
-      </FormItem>
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="参数">*/}
+        {/*{form.getFieldDecorator('param', {*/}
+          {/*initialValue: item.param,*/}
+          {/*rules: [{ required: false, message: '请输入参数！' }],*/}
+        {/*})(<Input placeholder="请输入参数" />)}*/}
+      {/*</FormItem>*/}
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="执行状态">*/}
+        {/*{form.getFieldDecorator('run_status', {*/}
+          {/*initialValue: item.run_status,*/}
+          {/*rules: [{ required: false, message: '请输入执行状态！' }],*/}
+        {/*})(*/}
+          {/*<Select style={{ width: '100%' }}>*/}
+            {/*<Select.Option value="RUNNING">执行中</Select.Option>*/}
+            {/*<Select.Option value="DONE">完成</Select.Option>*/}
+          {/*</Select>*/}
+        {/*)}*/}
+      {/*</FormItem>*/}
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="创建人">*/}
+        {/*{form.getFieldDecorator('create_user_name', {*/}
+          {/*initialValue: item.create_user_name,*/}
+          {/*rules: [{ required: false, message: '请输入创建人！' }],*/}
+        {/*})(<Input placeholder="请输入创建人" disabled />)}*/}
+      {/*</FormItem>*/}
+      {/*<FormItem labelCol={{ span: 3 }} wrapperCol={{ span: 20 }} label="修改人">*/}
+        {/*{form.getFieldDecorator('update_user_name', {*/}
+          {/*initialValue: item.update_user_name,*/}
+          {/*rules: [{ required: false, message: '请输入修改人！' }],*/}
+        {/*})(<Input placeholder="请输入修改人" disabled />)}*/}
+      {/*</FormItem>*/}
     </Modal>
   );
 });

@@ -9,6 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <packaging>jar</packaging>
     <artifactId>king-spring-boot-starter</artifactId>
     <description>给业务方使用，主要用于向zookeeper注册命名空间</description>
 
@@ -16,10 +17,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.simon.cloud</groupId>
-            <artifactId>king-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.simon.cloud</groupId>

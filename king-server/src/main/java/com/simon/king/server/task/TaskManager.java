@@ -1,6 +1,6 @@
 package com.simon.king.server.task;
 
-import com.simon.king.core.service.ZkParserService;
+import com.simon.king.server.service.ZkParserService;
 import com.simon.king.server.task.monitor.TaskMonitorService;
 import com.simon.king.server.zk.HashManager;
 import com.simon.neo.NeoMap;

@@ -37,10 +37,10 @@ public class HttpServiceTest extends BaseSpringBootTest {
         System.out.println(httpService.post("namespace3/test/post").body(NeoMap.of("a", 1, "c", 2)).send());
     }
 
-//    @Test
-//    public void testHead(){
-//        System.out.println(httpService.url("namespace3/test/head/ena").head());
-//    }
+    @Test
+    public void testHead(){
+        System.out.println(httpService.head("namespace3/test/get/ena").send());
+    }
 
     /**
      * delete必须有body
@@ -58,5 +58,12 @@ public class HttpServiceTest extends BaseSpringBootTest {
     @Test
     public void testPatch(){
         System.out.println(httpService.patch("namespace3/test/patch").body(NeoMap.of("patch", 199222)).send());
+    }
+
+    @Test
+    public void testHttp(){
+        System.out.println(httpService.get("namespace3/test/get/haode").send());
+        System.out.println(httpService.post("namespace3/test/post").body(NeoMap.of("a", 1, "c", 2)).send());
+        System.out.println(httpService.head("namespace3/test/get/ena").send());
     }
 }

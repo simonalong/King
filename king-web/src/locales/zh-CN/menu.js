@@ -20,7 +20,7 @@ export default {
   'menu.list.searchlist.projects': '搜索列表（项目）',
   'menu.list.searchlist.applications': '搜索列表（应用）',
   'menu.config': '配置',
-  'menu.config.configgrouplist': '配置组',
+  'menu.configgrouplist': '分组',
   'menu.config.configitemlist': '配置项',
   'menu.profile': '详情页',
   'menu.profile.basic': '基础详情页',
@@ -39,5 +39,5 @@ export default {
   'menu.account.trigger': '触发报错',
   'menu.account.logout': '退出登录',
   'menu.task': '调度',
-  'menu.task.tasklist': '任务调度',
+  'menu.tasklist': '任务',
 };
