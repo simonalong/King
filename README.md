@@ -78,8 +78,10 @@
 
 上面是进程：1，2，3，4，5，依次启动并接管不同的范围。而对于进程的崩溃，则这里是通过合并算法：`确定自己的左侧的节点进行接手自己，如果自己是位于起始点即圆环的起始点0，则向右融合（我们这里为了防止循环融合这里通过起止点进行划分）` ，根据合并算法，我们假设上面的进程3挂掉，这个时候是进程5接手进程3的任务，最后划分图会变成这种<br />
 
+<p>
 <img src="https://cdn.nlark.com/yuque/0/2019/png/126182/1558424505688-3fc73e1f-1244-44fe-85a1-2d9c15ec2555.png#align=left&display=inline&height=227&name=image.png&originHeight=864&originWidth=945&size=72085&status=done&width=248" width="280px" />
 <img src="https://cdn.nlark.com/yuque/0/2019/png/126182/1558424830447-f12ecf49-aa97-4dd7-8670-673d281db652.png#align=left&display=inline&height=229&name=image.png&originHeight=1021&originWidth=1103&size=93172&status=done&width=247" width="280px" />
+</p>
 
 而如果这个时候进程3在进程启动的话，会怎么样呢，肯定是按照拆分算法进行拆分啦，这个时候就属5最大，对5进行而分拆分了，如上右图所述。
 <a name="OQMBK"></a>
