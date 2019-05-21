@@ -153,6 +153,13 @@
                 <version>1.5.9.RELEASE</version>
             </dependency>
 
+            <!--缓存-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+
             <!--spring-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>

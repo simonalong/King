@@ -1,13 +1,16 @@
 package com.simon.king.server.task;
 
+import com.alibaba.fastjson.JSON;
 import com.simon.king.core.meta.TaskEnum;
 import com.simon.king.groovy.ParserService;
+import com.simon.king.server.KingServerConstant;
 import com.simon.king.server.service.TaskExtService;
 import com.simon.king.server.task.monitor.TaskMonitorEntity;
 import com.simon.king.server.util.BeanUtils;
 import com.simon.neo.NeoMap;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * job的回调执行器
@@ -19,8 +22,7 @@ public class TaskJob implements Job {
 
     private TaskExtService taskExtService = BeanUtils.getBean(TaskExtService.class);
     private ParserService parserService = BeanUtils.getBean(ParserService.class);
-    // todo redis这里目前提供两种选择：自己添加redis模块，和将该功能提供给外部
-//    private SetRedisTemplate setRedis = BeanUtils.getBean(SetRedisTemplate.class);
+    private StringRedisTemplate stringRedisTemplate = BeanUtils.getBean(StringRedisTemplate.class);
 
     @Override
     public void execute(JobExecutionContext context) {
@@ -47,14 +49,14 @@ public class TaskJob implements Job {
      * 添加任务执行的Flag
      */
     private void addTaskFlag(TaskMonitorEntity monitorEntity) {
-//        setRedis.sadd(KingServerConstant.TASK_MONITOR_KEY, monitorEntity);
+        stringRedisTemplate.opsForSet().add(KingServerConstant.TASK_MONITOR_KEY, JSON.toJSONString(monitorEntity));
     }
 
     /**
      * 删除任务执行的Flag
      */
     private void removeTaskFlag(TaskMonitorEntity monitorEntity) {
-//        setRedis.srem(KingServerConstant.TASK_MONITOR_KEY, monitorEntity);
+        stringRedisTemplate.opsForSet().remove(KingServerConstant.TASK_MONITOR_KEY, JSON.toJSONString(monitorEntity));
     }
 }
 
