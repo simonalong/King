@@ -68,12 +68,13 @@
 一致性哈希算法是开发该项目的关键，一致性哈希算法的官方解释可以见[这里](https://zh.wikipedia.org/wiki/%E4%B8%80%E8%87%B4%E5%93%88%E5%B8%8C)，我们这里是利用的它的其中一个特性，就是利用通过对一个2^n个区域，进行少量的m个划分，可以变成m个区间。只要我们可以保证m<2^n，那么我们就可以这样说，相当于我们实现了m个数据对2^n的数据进行了管理。如果2^n对应的上千万上亿或者更多的数据，我们都不怕，即使这个数据量比2^n更大，也没问题，只要与上2^n肯定还是位于2^n之内。而m这个值如果对应一些服务，那么最后是不是就可以转换为，少量的机器，通过一致性哈希算法，进行管理无限量的数据了。
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/126182/1558421530071-e3790c42-ea8a-497b-80d3-d74ef4830855.png#align=left&display=inline&height=308&name=image.png&originHeight=308&originWidth=743&size=25698&status=done&width=743)
 <br />该项目就是利用上述的原理是想少量机器管理海量的任务，其中在该项目中，我这里设置了n为10，也就是说我们这里任务调度群服务的上限也就是m的最大值只能是1024，这个值，如果不满足实现项目中的，要求，可以去代码中进行修改。<br />对于进程的新增和进程挂掉，在利用一致性哈希解决方面可以说是非常的方便，在任务调度服务什么都没有的时候，第一个新增进程接管如上图中的整个圆环，如果后面又来一个，我们这里采用这样的划分算法：`区域最大和若都一样情况下按照起点最小确定区域，确定后对该区域进行对半划分`，则第一个接手的进程进行保留前一部分，后面一部分进行移除掉，而新增的这个接手后面的一部分，后来再来一个进程，则根据划分算法确定还是第一个区域。若后面再来一个，则这个时候确定区域划分则就是第二个进来的了。我们做一个接管图如下
-
+<p>
 <img src="https://cdn.nlark.com/yuque/0/2019/png/126182/1558423919579-fc6a8911-1dd6-4c60-9b74-286cabdb2682.png#align=left&display=inline&height=228&name=image.png&originHeight=876&originWidth=927&size=63410&status=done&width=241" width="280px" style="display:inline-block"/>
 <img src="https://cdn.nlark.com/yuque/0/2019/png/126182/1558423866514-cae7d84d-7ebe-4a9c-9b6a-b4e9202a2c1e.png#align=left&display=inline&height=235&name=image.png&originHeight=919&originWidth=871&size=64878&status=done&width=223" width="280px" style="display:inline-block"/>
 <img src="https://cdn.nlark.com/yuque/0/2019/png/126182/1558424022803-00340920-eb4c-4723-9978-bdc46bed3037.png#align=left&display=inline&height=226&name=image.png&originHeight=895&originWidth=935&size=68043&status=done&width=236" width="280px" style="display:inline-block"/>
 <img src="https://cdn.nlark.com/yuque/0/2019/png/126182/1558424125073-35378024-9e12-4b2c-91fa-ad615bb93047.png#align=left&display=inline&height=229&name=image.png&originHeight=889&originWidth=946&size=70303&status=done&width=244" width="280px" style="display:inline-block"/>
 <img src="https://cdn.nlark.com/yuque/0/2019/png/126182/1558424170129-80b63f51-707d-4a84-ad33-3c005ee0abd5.png#align=left&display=inline&height=212&name=image.png&originHeight=870&originWidth=945&size=74722&status=done&width=230" width="280px" style="display:inline-block"/>
+</p>
 
 上面是进程：1，2，3，4，5，依次启动并接管不同的范围。而对于进程的崩溃，则这里是通过合并算法：`确定自己的左侧的节点进行接手自己，如果自己是位于起始点即圆环的起始点0，则向右融合（我们这里为了防止循环融合这里通过起止点进行划分）` ，根据合并算法，我们假设上面的进程3挂掉，这个时候是进程5接手进程3的任务，最后划分图会变成这种<br />
 
