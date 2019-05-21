@@ -62,10 +62,13 @@
 <h3 id="站在任务调度方来看">2.站在任务调度方来看</h3>
 1.启动新的任务调度进程加入集群，会触发所有的进程进行一致性哈希计算，算出哪个进程对应的任务被拆分给这新的进程，被拆分的进程会禁用掉那些被执行的任务，新的进程会启用对拆分下来的区域对应的任务。实现动态化的扩容，无需所有的机器重新哈希。<br />2.有服务启动消息发送，所有进程接收判断是否是自己管理，是自己管理，则会启动任务调度<br />3.任务调度，会解析groovy脚本并执行，脚本中我们内置了一些对象，其中包括http模块，可以用于纯restful化的对外部服务的调度，其中restful化是通过其中的namespace查找对应的ip和端口，通过负载均衡找到一个可用的ip，然后向这台ip的这个端口发送对应的请求
 <a name="ngn4l"></a>
+
 <h2 id="一致性哈希算法">2.一致性哈希算法（*）</h2>
+
 一致性哈希算法是开发该项目的关键，一致性哈希算法的官方解释可以见[这里](https://zh.wikipedia.org/wiki/%E4%B8%80%E8%87%B4%E5%93%88%E5%B8%8C)，我们这里是利用的它的其中一个特性，就是利用通过对一个2^n个区域，进行少量的m个划分，可以变成m个区间。只要我们可以保证m<2^n，那么我们就可以这样说，相当于我们实现了m个数据对2^n的数据进行了管理。如果2^n对应的上千万上亿或者更多的数据，我们都不怕，即使这个数据量比2^n更大，也没问题，只要与上2^n肯定还是位于2^n之内。而m这个值如果对应一些服务，那么最后是不是就可以转换为，少量的机器，通过一致性哈希算法，进行管理无限量的数据了。
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/126182/1558421530071-e3790c42-ea8a-497b-80d3-d74ef4830855.png#align=left&display=inline&height=308&name=image.png&originHeight=308&originWidth=743&size=25698&status=done&width=743)
 <br />该项目就是利用上述的原理是想少量机器管理海量的任务，其中在该项目中，我这里设置了n为10，也就是说我们这里任务调度群服务的上限也就是m的最大值只能是1024，这个值，如果不满足实现项目中的，要求，可以去代码中进行修改。<br />对于进程的新增和进程挂掉，在利用一致性哈希解决方面可以说是非常的方便，在任务调度服务什么都没有的时候，第一个新增进程接管如上图中的整个圆环，如果后面又来一个，我们这里采用这样的划分算法：`区域最大和若都一样情况下按照起点最小确定区域，确定后对该区域进行对半划分`，则第一个接手的进程进行保留前一部分，后面一部分进行移除掉，而新增的这个接手后面的一部分，后来再来一个进程，则根据划分算法确定还是第一个区域。若后面再来一个，则这个时候确定区域划分则就是第二个进来的了。我们做一个接管图如下
+
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/126182/1558423919579-fc6a8911-1dd6-4c60-9b74-286cabdb2682.png#align=left&display=inline&height=228&name=image.png&originHeight=876&originWidth=927&size=63410&status=done&width=241) 
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/126182/1558423866514-cae7d84d-7ebe-4a9c-9b6a-b4e9202a2c1e.png#align=left&display=inline&height=235&name=image.png&originHeight=919&originWidth=871&size=64878&status=done&width=223) 
 ![image.png](https://cdn.nlark.com/yuque/0/2019/png/126182/1558424022803-00340920-eb4c-4723-9978-bdc46bed3037.png#align=left&display=inline&height=226&name=image.png&originHeight=895&originWidth=935&size=68043&status=done&width=236)
