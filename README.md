@@ -42,7 +42,7 @@
 
 1. Orm框架：是自己开发的一个Orm框架，详情见[这里](https://simonalong.github.io/Neo/)
 1. 服务发现框架：这里选择的是zk，后面也会接入consul，etcd，eureka
-1. 消息队列：采用的是apache管理的[rocketmq](https://rocketmq.apache.org/docs/simple-example/)
+1. 消息队列：rabbitmq，之前采用apache的rocketmq，但是遇到那个大坑问题No route info of this topic，最后换成了这个
 1. 调度引擎：quartz，quartz是所有调度框架的基础，包括spring的调度器底层也是由quartz实现
 1. 脚本引擎：groovy
 1. 网络框架：okhttp

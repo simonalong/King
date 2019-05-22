@@ -39,7 +39,6 @@
         <yaml.version>1.19</yaml.version>
         <groovy.version>2.3.6</groovy.version>
         <guava.version>24.0-jre</guava.version>
-        <fastJson.version>1.2.29</fastJson.version>
         <quartz.version>2.3.0</quartz.version>
         <dubbo.version>2.7.1</dubbo.version>
         <zookeeper.version>3.4.10</zookeeper.version>
