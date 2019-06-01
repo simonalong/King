@@ -1,6 +1,5 @@
 package com.simon.king.common.util;
 
-import com.alibaba.fastjson.JSON;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
