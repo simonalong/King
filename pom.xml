@@ -35,7 +35,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <curator.version>4.2.0</curator.version>
         <netty.version>4.1.32.Final</netty.version>
-        <neo.version>0.3.1-SNAPSHOT</neo.version>
+        <neo.version>0.3.2</neo.version>
         <yaml.version>1.19</yaml.version>
         <groovy.version>2.3.6</groovy.version>
         <guava.version>29.0-jre</guava.version>
@@ -93,7 +93,7 @@
 
             <!--orm框架-->
             <dependency>
-                <groupId>com.simon.cloud</groupId>
+                <groupId>com.github.simonalong</groupId>
                 <artifactId>Neo</artifactId>
                 <version>${neo.version}</version>
             </dependency>
